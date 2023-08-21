@@ -93,7 +93,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         .then((value) => logger.d("notes add sucessfully"))
         .catchError((error) => logger.i("Failed $error"));
   }
-  
+
 
 
   clearText(){

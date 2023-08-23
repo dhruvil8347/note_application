@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app/model/notesmodel.dart';
 import 'package:note_app/widget/textfiled.dart';
@@ -38,74 +39,81 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Note"),
+        title: const Text("Create Note"),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Form(
-          key: formkey,
-          child: Column(
-            children: [
-              AppTextfiled(
-                obscureText: false,
-                controller: titleController,
-                text: "Title",
-                validation: (value) {
-
-                  if(value == null || value.trim().isEmpty)
-                  {
-                    return "please insert title";
-                  }
-                  return null;
-
-                },
-              ),
-
-              AppTextfiled(
-                validation: (value){
-                  if(value == null || value.trim().isEmpty)
-                  {
-                    return "please insert notes";
-                  }
-                  return null;
-                },
-                obscureText: false,
-                text: "Note",
-                controller: notesController,
-                maxLine: 6,
-              ),
-
-              SizedBox(
-                height: 20,
-              ),
-
-              ElevatedButton(
-                  onLongPress: (){
-                    print("null");
-                  },
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(350, 50)),
-
-                  onPressed: ()  {
-                    if(formkey.currentState!.validate()){
-                      if(widget.notesModel != null){
-                        updateNote(notesModel: NotesModel(
-                          titleName: titleController.text,
-                          note: notesController.text,
-                        )).then((value) => Navigator.of(context).pop());
-                      }else{
-                        addNote().then((value) => Navigator.of(context).pop());
-                      }
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Form(
+            key: formkey,
+            child: Column(
+              children: [
+                AppTextfiled(
+                  obscureText: false,
+                  controller: titleController,
+                  text: "Title",
+                  maxLine: 1,
+                  validation: (value) {
+                    if(value == null || value.trim().isEmpty)
+                    {
+                      return "please insert title";
                     }
-
-
-
-                    clearText();
+                    return null;
 
                   },
-                  child:  Text("SAVE")),
-            ],
+                ),
+
+                AppTextfiled(
+                  validation: (value){
+                    if(value == null || value.trim().isEmpty)
+                    {
+                      return "please insert notes";
+                    }
+                    return null;
+                  },
+                  obscureText: false,
+                  text: "Note",
+                  controller: notesController,
+                  maxLine: 5
+                  ,
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                ElevatedButton(
+                    onLongPress: (){
+                      if (kDebugMode) {
+                        print("null");
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(350, 50)),
+
+                    onPressed: ()  {
+                      if(formkey.currentState!.validate()){
+                        if(widget.notesModel != null){
+                          updateNote(notesModel: NotesModel(
+                            id: uid,
+                            titleName: titleController.text.trim(),
+                            note: notesController.text.trim(),
+                          )).then((value) => Navigator.of(context).pop());
+                        }else{
+                          addNote(notesModel: NotesModel(
+                            id: uid,
+                            titleName: titleController.text.trim(),
+                            note: notesController.text.trim(),
+
+                          )).then((value) => Navigator.of(context).pop());
+                        }
+                      }
+                      clearText();
+                    },
+                    child:  const Text("SAVE")),
+              ],
+            ),
           ),
         ),
       ),
@@ -114,19 +122,17 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   }
 
 
-  Future<void> addNote() {
-    return notes.add({
-      "title": titleController.text.trim(),
-      "notes": notesController.text.trim(),
-      'id' : uid,
-      
-    })
+  Future<void> addNote({required NotesModel notesModel}) {
+    return notes
+        .add(notesModel.tojson())
         .then((value) => logger.d("notes add sucessfully"))
         .catchError((error) => logger.i("Failed $error"));
   }
 
 
   Future<void> updateNote({required NotesModel notesModel}){
+
+   logger.e(uid);
     return notes
         .doc(widget.notesModel!.id)
         .update(notesModel.tojson())

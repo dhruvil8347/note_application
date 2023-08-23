@@ -139,7 +139,9 @@ class _MyHomepageState extends State<MyHomepage> {
                         },
                         child: Container(
                             height: 100,
+
                             decoration: BoxDecoration(
+
                                 borderRadius: BorderRadius.circular(5),
                                 color: Colors.blue),
                             child: Column(
@@ -148,21 +150,21 @@ class _MyHomepageState extends State<MyHomepage> {
                                 const SizedBox(
                                   width: 1,
                                 ),
-                                SizedBox(
+                                Container(
                                   width: 202,
                                   child: Column(
                                     children: [
                                       Text(
-                                        "Title : ${document['title']}",
+                                        "Title : ${document['title']}".trim(),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 18),
+                                            color: Colors.white, fontSize: 18,fontWeight: FontWeight.w800),
                                       ),
                                       Text(
-                                        "Notes : ${document['notes']}",
+                                        "Notes : ${document['notes']}".trim(),
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 16),
+                                            color: Colors.white, fontSize: 13,fontWeight: FontWeight.w300),
                                       ),
                                     ],
                                   ),

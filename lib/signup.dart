@@ -98,6 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       });
                     }
                     clearText();
+                    Navigator.of(context).pop();
 
                   },
                   child:  const Text("Sign Up")),

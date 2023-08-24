@@ -23,6 +23,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final CollectionReference notes = FirebaseFirestore.instance.collection("notes");
   final auth = FirebaseAuth.instance;
   String uid = "";
+  String time = "";
   final formkey = GlobalKey<FormState>();
 
   @override
@@ -38,7 +39,9 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  const Color(0xFF1b1c17),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF242922),
         title: const Text("Create Note"),
       ),
 
@@ -91,25 +94,25 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                         fixedSize: const Size(350, 50)),
-
                     onPressed: ()  {
                       if(formkey.currentState!.validate()){
                         if(widget.notesModel != null){
                           updateNote(notesModel: NotesModel(
                             id: uid,
                             titleName: titleController.text.trim(),
-                            note: notesController.text.trim(),
+                            note: notesController.text.trim()
+
                           )).then((value) => Navigator.of(context).pop());
                         }else{
                           addNote(notesModel: NotesModel(
                             id: uid,
                             titleName: titleController.text.trim(),
                             note: notesController.text.trim(),
-
+                            createAt: DateTime.now(),
                           )).then((value) => Navigator.of(context).pop());
                         }
                       }
-                      clearText();
+
                     },
                     child:  const Text("SAVE")),
               ],
@@ -117,7 +120,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           ),
         ),
       ),
-
     );
   }
 
@@ -138,7 +140,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         .update(notesModel.tojson())
         .then((value) => logger.d("Notes has been updated"))
         .catchError((error) => logger.e("Filed $error"));
-        
+
   }
 
 

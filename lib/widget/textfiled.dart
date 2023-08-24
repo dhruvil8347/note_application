@@ -27,15 +27,12 @@ class AppTextfiled extends StatelessWidget {
   final String? text;
   final bool obscureText ;
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        style: TextStyle(color: Colors.white),
         controller: controller,
         validator: validation,
         maxLines: maxLine,
@@ -45,10 +42,14 @@ class AppTextfiled extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
             label: title,
-            hintText: text,
+            hintText: text,hintStyle: TextStyle(color: Colors.white),
 
+             focusedBorder:  OutlineInputBorder(borderSide: BorderSide(color:Colors.white )),
+             enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+             focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color:Colors.white )),
             border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            OutlineInputBorder(borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.white))),
       ),
     );
   }

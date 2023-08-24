@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app/untils/until.dart';
 import 'package:note_app/widget/textfiled.dart';
-
 import 'login.dart';
 import 'main.dart';
 
@@ -38,7 +36,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF1b1c17),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF242922),
         title: const Text("Sign Up"),
       ),
 
@@ -83,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               ElevatedButton(
                   onLongPress: (){
-                    print("null");
+                    ("null");
                   },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(350, 50)),

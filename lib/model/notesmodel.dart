@@ -1,15 +1,22 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class NotesModel {
   String id;
   String titleName;
   String note;
+  DateTime? createAt;
+
 
 
   NotesModel({
     this.id = "" ,
     this.titleName = "",
     this.note = "",
+    this.createAt,
+
+
 
   });
 
@@ -18,6 +25,8 @@ class NotesModel {
       id: json['id'] ??  "",
       titleName: json['title'] ?? "",
       note: json['notes'] ?? "",
+      createAt: json['createAt'] ?? Timestamp.now(),
+
 
     );
 
@@ -28,6 +37,8 @@ class NotesModel {
     'id' : id,
     'title' : titleName,
     'notes' : note,
+    'createAt' : createAt,
+
 
   };
 

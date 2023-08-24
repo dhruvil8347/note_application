@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  void Login() {
+  void login() {
     auth
         .signInWithEmailAndPassword(
             email: emailController.text.toString(),
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Until().toastMessage(value.user!.email.toString());
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => MyHomepage(),
+            builder: (context) => const MyHomepage(),
           ),
           (route) => false);
     }).onError((error, stackTrace) {
@@ -45,7 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF1b1c17),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF242922),
         title: const Text("Login"),
       ),
       body: Form(
@@ -86,11 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   onLongPress: () {
                     logger.e("null");
                   },
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(350, 50)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1b1c17),
+                      fixedSize: const Size(350, 50),
+                      shape: const RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.grey))),
                   onPressed: () {
                     if (formkey.currentState!.validate()) {
-                      Login();
+                      login();
                     }
                   },
                   child: const Text("Login")),
@@ -100,16 +105,16 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(" Don't have an account?"),
+                  const Text(" Don't have an account?",style: TextStyle(color: Colors.white)),
                   TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
+                              builder: (context) => const SignUpScreen(),
                             ));
                       },
-                      child: Text("Sign up"))
+                      child: const Text("Sign up",style: TextStyle(color: Colors.white,)))
                 ],
               )
             ],
